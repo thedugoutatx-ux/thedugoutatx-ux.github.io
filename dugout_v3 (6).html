@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dugout ATX</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#0a0a0a;color:#f0f0f0;min-height:100vh}
+nav{display:flex;align-items:center;background:#141414;border-bottom:1px solid #222;position:sticky;top:0;z-index:100;overflow-x:auto}
+.brand{padding:13px 18px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:#00C853;border-right:1px solid #222;flex-shrink:0}
+.tab{padding:14px 16px;font-size:13px;font-weight:500;color:#888;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s}
+.tab:hover{color:#f0f0f0;background:#1e1e1e}
+.tab.on{color:#00C853;border-bottom-color:#00C853}
+.pg{display:none;padding:24px 20px;max-width:920px;margin:0 auto}
+.pg.on{display:block}
+h2{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;margin-bottom:4px}
+.sub{font-size:13px;color:#888;margin-bottom:20px}
+.box{background:#141414;border:1px solid #222;border-radius:12px;padding:18px;margin-bottom:14px}
+.lbl{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:10px}
+label{font-size:11px;color:#888;display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+input[type=text],input[type=number],input[type=file],select,textarea{width:100%;padding:9px 11px;border:1px solid #333;border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:#1e1e1e;color:#f0f0f0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#00C853}
+textarea{resize:vertical}
+.f{margin-bottom:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{padding:9px 16px;border-radius:7px;border:1px solid #333;background:#1e1e1e;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.15s;font-weight:500}
+button:hover{background:#2a2a2a}
+button:disabled{opacity:.5;cursor:not-allowed}
+.gbtn{background:#00C853;color:#000;border-color:#00C853;font-weight:700}
+.gbtn:hover{background:#009624}
+.ybtn{background:#FFD600;color:#000;border-color:#FFD600;font-weight:700}
+.sbtn{padding:6px 11px;font-size:11px}
+.info{padding:10px 14px;border-radius:7px;font-size:12px;margin-bottom:12px;line-height:1.6}
+.blue{background:#0d2137;border:1px solid #1a4a7a;color:#7ec8f7}
+.green{background:#0d2416;border:1px solid #1a5c32;color:#6ee09e}
+.yellow{background:#1e1800;border:1px solid #4a3c00;color:#ffd54f}
+.red{background:#1e0606;border:1px solid #5c1a1a;color:#f48a8a}
+.tip{font-size:11px;color:#555;margin-top:4px}
+.conn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#00C853}
+.conn::before{content:'';width:7px;height:7px;border-radius:50%;background:#00C853;box-shadow:0 0 6px #00C853;display:inline-block}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-top:12px}
+.lc{background:#141414;border:1px solid #222;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+.lc.done{border-color:#00C853}
+.lc.sold{border-color:#FFD600;opacity:.7}
+.lc img{width:100%;height:135px;object-fit:cover;display:block}
+.lc .noimg{height:70px;background:#1e1e1e;display:flex;align-items:center;justify-content:center;font-size:11px;color:#444}
+.lc .lbody{padding:9px 10px;flex:1;display:flex;flex-direction:column;gap:4px}
+.lc .ltitle{font-size:11px;font-weight:500;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.lc .lprice{font-size:14px;font-weight:700;color:#00C853}
+.lc .lcond{font-size:10px;color:#555}
+.lc .lbtns{margin-top:auto;padding-top:6px;display:flex;gap:4px;flex-wrap:wrap}
+.lc .lbtns button{flex:1;font-size:10px;padding:5px 0}
+.lstatus-done{font-size:10px;color:#00C853;margin-top:5px}
+.lstatus-post{font-size:10px;color:#888;margin-top:5px}
+.lstatus-err{font-size:10px;color:#ff4444;margin-top:4px;line-height:1.4}
+.rbar{background:#141414;border:1px solid #222;border-radius:9px;padding:10px 14px;margin-bottom:12px}
+.stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stat{background:#141414;border:1px solid #222;border-radius:10px;padding:14px;text-align:center}
+.sv{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#00C853}
+.sl{font-size:10px;color:#444;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.story-canvas-wrap{flex-shrink:0}
+.story-wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-bottom:14px}
+.thbtn{border-radius:7px;padding:6px;text-align:center;cursor:pointer;border:2px solid #222;background:#1e1e1e;font-size:10px;font-weight:600;transition:.15s}
+.thbtn:hover,.thbtn.on{border-color:#00C853}
+.thprev{width:100%;height:44px;border-radius:4px;margin-bottom:4px}
+.step{padding:6px 0;border-bottom:1px solid #222;font-size:12px;display:flex;align-items:flex-start;gap:8px}
+.step:last-child{border:none}
+.step-icon{width:18px;flex-shrink:0;font-weight:700}
+.copyb{background:#2a2a2a;border:1px solid #333;color:#888;font-size:10px;padding:3px 8px;border-radius:5px;cursor:pointer;float:right}
+.copyb:hover{color:#00C853;border-color:#00C853}
+.dbrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #222}
+.dbrow:last-child{border:none}
+.dblabel{font-size:13px;flex:1}
+.dbstat{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:500;white-space:nowrap}
+.dbpass{background:#0d2416;color:#6ee09e}
+.dbfail{background:#1e0606;color:#f48a8a}
+.dbpend{background:#1e1800;color:#ffd54f}
+.dbidle{background:#1e1e1e;color:#555}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">DUGOUT ATX</div>
+  <div class="tab on" onclick="show('post',this)">Post</div>
+  <div class="tab" onclick="show('story',this)">Stories</div>
+  <div class="tab" onclick="show('news',this)">News</div>
+  <div class="tab" onclick="show('pay',this)">Payments</div>
+  <div class="tab" onclick="show('debug',this)">Debug</div>
+</nav>
+
+<!-- POST -->
+<div class="pg on" id="pg-post">
+  <h2>Post Listings</h2>
+  <p class="sub">Connect Instagram, import your eBay CSV, post to @thedugoutatx.</p>
+
+  <div id="setup-box">
+    <div class="info blue">Get your token at <strong>developers.facebook.com</strong> &rarr; Tools &rarr; Graph API Explorer &rarr; Generate Access Token</div>
+    <div class="info red" id="setup-err" style="display:none"></div>
+    <div class="box">
+      <div class="f">
+        <label>Meta access token (IGAA... or EAA...)</label>
+        <input type="text" id="tok" style="font-size:11px">
+        <p class="tip" id="tok-tip" style="margin-top:5px;min-height:16px"></p>
+      </div>
+      <button class="gbtn" id="conn-btn" onclick="doConnect()" style="width:100%">Connect to @thedugoutatx</button>
+    </div>
+  </div>
+
+  <div id="main-box" style="display:none">
+    <div class="box" id="token-needed-box">
+      <div class="lbl" style="color:#FFD600">Token required to post</div>
+      <p style="font-size:12px;color:#888;margin-bottom:10px">Your listings are loaded. Paste a fresh token to continue.</p>
+      <div class="f">
+        <label>Fresh token</label>
+        <input type="text" id="refresh-tok" style="font-size:11px" oninput="tipRefresh()">
+        <p class="tip" id="refresh-tip" style="margin-top:5px;min-height:16px"></p>
+      </div>
+      <div class="info red" id="refresh-err" style="display:none"></div>
+      <button class="gbtn" onclick="doRefresh()" style="width:100%">Apply Token</button>
+    </div>
+
+    <div class="row" style="margin-bottom:8px;gap:8px">
+      <span class="conn" id="conn-label">Connected</span>
+      <span id="tok-status" style="font-size:11px;color:#555"></span>
+      <span id="postcount" style="font-size:12px;color:#555;margin-left:auto"></span>
+    </div>
+    <div id="rbar" style="margin-bottom:8px"></div>
+    <div class="box" id="longlived-box" style="margin-bottom:12px;display:none">
+      <div class="lbl" style="color:#FFD600">Get a 60-Day Token</div>
+      <p style="font-size:12px;color:#aaa;margin-bottom:10px;line-height:1.6">Your token expires in ~1 hour. Enter your App ID and App Secret from <strong>developers.facebook.com</strong> to exchange it for a token that lasts 60 days.</p>
+      <div class="g2">
+        <div class="f"><label>App ID</label><input type="text" id="ll-appid" placeholder="App ID from Meta developer portal"></div>
+        <div class="f"><label>App Secret</label><input type="password" id="ll-secret" placeholder="App Secret from Meta developer portal"></div>
+      </div>
+      <div class="info yellow" style="margin-bottom:8px;font-size:11px">Find these at developers.facebook.com - your app - App settings - Basic. Keep the secret private.</div>
+      <div id="ll-err" class="info red" style="display:none;margin-bottom:8px"></div>
+      <button class="gbtn sbtn" onclick="getLongLivedToken()">Exchange for 60-Day Token</button>
+      <button class="sbtn" style="margin-left:6px" onclick="document.getElementById('longlived-box').style.display='none'">Cancel</button>
+    </div>
+
+    <div class="box">
+      <div class="lbl">Import eBay CSV</div>
+      <div class="info blue" style="margin-bottom:8px">eBay Seller Hub &rarr; Listings &rarr; Active &rarr; Download report &rarr; CSV</div>
+      <input type="file" id="csvfile" accept=".csv" onchange="importCSV(this)">
+    </div>
+
+    <div class="box">
+      <div class="lbl">Add single listing</div>
+      <div class="info red" id="add-err" style="display:none;margin-bottom:8px"></div>
+      <div class="f"><label>Title</label><input type="text" id="at" placeholder="2024 Panini Prizm Dak Prescott PSA 10"></div>
+      <div class="g2">
+        <div class="f"><label>Price ($)</label><input type="text" id="ap"></div>
+        <div class="f"><label>Condition</label><input type="text" id="ac" placeholder="PSA 9"></div>
+      </div>
+      <div class="f"><label>Image URL</label><input type="text" id="ai" placeholder="https://i.ebayimg.com/..."><p class="tip">Right-click eBay photo &rarr; Copy image address</p></div>
+      <button class="gbtn sbtn" onclick="addOne()">Add listing</button>
+    </div>
+
+    <div id="edit-cap-box" class="box" style="display:none">
+      <div class="row" style="margin-bottom:10px">
+        <span style="font-size:13px;font-weight:600">Edit Caption</span>
+        <button class="sbtn" style="margin-left:auto" onclick="closeEdit()">Done</button>
+      </div>
+      <textarea id="cap-editor" rows="9"></textarea>
+    </div>
+
+    <div class="row" style="margin-bottom:12px">
+      <input type="text" id="srch" placeholder="Search listings..." oninput="render()" style="flex:1;min-width:140px">
+      <select id="srt" onchange="render()">
+        <option value="pd">Price High-Low</option>
+        <option value="pa">Price Low-High</option>
+        <option value="az">A-Z</option>
+        <option value="up">Unposted first</option>
+      </select>
+      <button class="gbtn sbtn" id="postall-btn" onclick="postAll()" style="display:none">Post All</button>
+      <span id="cnt" style="font-size:11px;color:#555"></span>
+    </div>
+
+    <div class="row" style="margin-bottom:10px">
+      <button onclick="syncIG()" id="sync-btn">Sync from Instagram</button>
+      <button onclick="if(confirm('Clear all data?'))clearAll()" style="color:#f48a8a;border-color:#5c1a1a;background:#1e0606" class="sbtn">Clear All</button>
+    </div>
+
+    <div class="lgrid" id="grid"></div>
+  </div>
+</div>
+
+<!-- STORY -->
+<div class="pg" id="pg-story">
+  <h2>Story Cards</h2>
+  <p class="sub">Create and post Instagram Story cards for your listings.</p>
+
+  <div class="g2" style="margin-bottom:14px">
+    <div class="box">
+      <div class="lbl">Pick a listing</div>
+      <select id="story-sel" onchange="storyFromListing()">
+        <option value="">-- Select listing --</option>
+      </select>
+      <p class="tip" style="margin-top:5px">Import CSV in Post tab first</p>
+    </div>
+    <div class="box">
+      <div class="lbl">Manual entry</div>
+      <div class="f"><label>Title</label><input type="text" id="st" oninput="drawS()" placeholder="Player, card, year..."></div>
+      <div class="g2">
+        <div class="f"><label>Price</label><input type="text" id="sp" oninput="drawS()" placeholder="295"></div>
+        <div class="f"><label>Grade</label><input type="text" id="sg" oninput="drawS()" placeholder="PSA 9"></div>
+      </div>
+      <div class="f"><label>Image URL</label><input type="text" id="si" oninput="loadSImg()" placeholder="https://..."></div>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="lbl">Theme</div>
+    <div class="theme-grid" id="tgrid"></div>
+    <div class="g3">
+      <div class="f"><label>Accent color</label><input type="color" id="sacc" value="#00C853" oninput="drawS()" style="height:36px;padding:2px"></div>
+      <div class="f"><label>Text color</label><input type="color" id="stxt" value="#ffffff" oninput="drawS()" style="height:36px;padding:2px"></div>
+      <div class="f"><label>Layout</label>
+        <select id="slayout" onchange="drawS()">
+          <option value="c">Centered</option>
+          <option value="b">Image top</option>
+          <option value="m">Minimal</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="story-wrap">
+    <div class="story-canvas-wrap">
+      <p style="font-size:11px;color:#444;margin-bottom:6px;text-transform:uppercase">Preview</p>
+      <canvas id="sc" width="360" height="640" style="border-radius:10px;border:2px solid #222;display:block"></canvas>
+      <div class="row" style="margin-top:8px;gap:6px">
+        <button class="gbtn" onclick="dlStory()" style="flex:1">Download</button>
+        <button class="ybtn" onclick="postStory()" style="flex:1" id="sbtn">Post as Story</button>
+      </div>
+      <button onclick="postFeed()" style="width:100%;margin-top:5px;font-size:11px;color:#888">Post as Feed Post instead</button>
+      <div id="story-steps" style="margin-top:10px;background:#1e1e1e;border-radius:7px;padding:10px;font-size:11px;display:none"></div>
+    </div>
+    <div style="flex:1;min-width:220px">
+      <div class="box">
+        <div class="lbl">Style</div>
+        <div class="f"><label>Headline</label><input type="text" id="shl" oninput="drawS()" value="NOW AVAILABLE"></div>
+        <div class="f"><label>CTA</label><input type="text" id="scta" oninput="drawS()" value="Link in bio  DM to buy"></div>
+        <div class="row" style="gap:12px;flex-wrap:wrap;margin-top:4px">
+          <label style="text-transform:none;font-size:12px;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" id="showp" checked onchange="drawS()"> Price</label>
+          <label style="text-transform:none;font-size:12px;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" id="showg" checked onchange="drawS()"> Grade</label>
+          <label style="text-transform:none;font-size:12px;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" id="showw" checked onchange="drawS()"> Watermark</label>
+        </div>
+      </div>
+      <div class="box">
+        <div class="lbl">Caption <span class="copyb" onclick="copyEl('scap')">Copy</span></div>
+        <div id="scap" style="font-size:11px;color:#888;line-height:1.7;white-space:pre-wrap"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWS -->
+<div class="pg" id="pg-news">
+  <h2>News Posts</h2>
+  <p class="sub">Generate daily sports content to grow reach beyond just listings.</p>
+  <div class="box">
+    <div class="lbl">Caption Generator</div>
+    <div class="f"><label>Paste a headline</label><textarea id="nhl" rows="2" placeholder="e.g. Patrick Mahomes signs $450M extension"></textarea></div>
+    <div class="g2">
+      <div class="f"><label>Style</label>
+        <select id="ntype">
+          <option value="hot">Hot take</option>
+          <option value="mkt">Card market impact</option>
+          <option value="hype">Hype</option>
+          <option value="sale">Tie to a sale</option>
+          <option value="poll">Poll</option>
+        </select>
+      </div>
+      <div class="f"><label>Action</label>
+        <button class="gbtn" onclick="genNews()" style="width:100%;margin-top:4px">Generate</button>
+      </div>
+    </div>
+    <div id="news-out" style="display:none;margin-top:12px">
+      <div class="lbl">Caption <span class="copyb" onclick="copyEl('ncap')">Copy</span></div>
+      <div id="ncap" style="background:#1e1e1e;border-radius:7px;padding:12px;font-size:12px;color:#aaa;line-height:1.8;white-space:pre-wrap;border:1px solid #222"></div>
+    </div>
+  </div>
+  <div class="box">
+    <div class="lbl">Daily Ideas</div>
+    <div id="ideas"></div>
+  </div>
+</div>
+
+<!-- PAYMENTS -->
+<div class="pg" id="pg-pay">
+  <h2>Payments</h2>
+  <p class="sub">Sell directly to Instagram followers without eBay fees.</p>
+  <div class="info yellow">Only accept payment from Instagram followers you met organically, not eBay buyers.</div>
+  <div class="g2">
+    <div class="box">
+      <div class="lbl">PayPal</div>
+      <div class="f"><label>Email</label><input type="text" id="ppe" placeholder="thedugoutatx@gmail.com"></div>
+      <button class="gbtn sbtn" onclick="genPP()">Get Link</button>
+      <div id="ppout" style="display:none;margin-top:10px">
+        <span class="copyb" onclick="copyEl('pplink')">Copy</span>
+        <div id="pplink" style="font-size:12px;color:#00C853;word-break:break-all;background:#1e1e1e;padding:8px;border-radius:6px;border:1px solid #222;margin-top:4px"></div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="lbl">Cash App</div>
+      <div class="f"><label>$cashtag</label><input type="text" id="cat" placeholder="$TheDugoutATX"></div>
+      <button class="gbtn sbtn" onclick="genCA()">Get Link</button>
+      <div id="caout" style="display:none;margin-top:10px">
+        <span class="copyb" onclick="copyEl('calink')">Copy</span>
+        <div id="calink" style="font-size:12px;color:#00C853;word-break:break-all;background:#1e1e1e;padding:8px;border-radius:6px;border:1px solid #222;margin-top:4px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="box">
+    <div class="lbl">DM Template <span class="copyb" onclick="copyEl('dmt')">Copy</span></div>
+    <div id="dmt" style="font-size:12px;color:#aaa;line-height:1.8;white-space:pre-wrap;background:#1e1e1e;border-radius:7px;padding:12px;border:1px solid #222">Hey! Thanks for your interest
+
+Card: [CARD NAME]
+Price: $[PRICE] + $5 shipping
+Condition: [GRADE/CONDITION]
+
+Payment: PayPal Goods and Services (buyer protection included)
+PayPal: thedugoutatx@gmail.com
+
+Ships same or next business day with tracking.</div>
+  </div>
+</div>
+
+<!-- DEBUG -->
+<div class="pg" id="pg-debug">
+  <h2>Debug</h2>
+  <p class="sub">Test all connections. Run this if anything stops working.</p>
+  <div class="box">
+    <div class="lbl">System Status</div>
+    <div id="dbtests"></div>
+    <button class="gbtn" onclick="runDebug()" style="margin-top:12px;width:100%">Run All Tests</button>
+  </div>
+  <div class="box">
+    <div class="lbl">Info</div>
+    <div id="dbinfo" style="font-size:12px;color:#888;line-height:1.8"></div>
+  </div>
+  <div class="box">
+    <div class="lbl">Log</div>
+    <div id="dblog" style="background:#0a0a0a;border-radius:7px;padding:10px;font-size:11px;color:#00C853;font-family:monospace;min-height:60px;line-height:1.8;border:1px solid #222;max-height:180px;overflow-y:auto">Ready.</div>
+  </div>
+  <button onclick="if(confirm('Clear all saved data?'))clearAll()" style="color:#f48a8a;border-color:#5c1a1a;background:#1e0606;margin-top:4px">Clear All Saved Data</button>
+</div>
+
+<script>
+var G = 'https://graph.facebook.com/v18.0';
+var TOK = '', IGID = '';
+var listings = [], statuses = {}, caps = {}, sold = {}, editId = null, ic = 1;
+var postsToday = 0;
+var sImg = null, curTheme = 0;
+var LIMIT = 50, DELAY = 20000;
+
+function log(m) { var el = document.getElementById('dblog'); if (el) { el.textContent += '\n' + new Date().toLocaleTimeString() + ' ' + m; el.scrollTop = el.scrollHeight; } }
+function sleep(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
+function show(id, el) {
+  document.querySelectorAll('.pg').forEach(function(p) { p.classList.remove('on'); });
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('on'); });
+  document.getElementById('pg-' + id).classList.add('on');
+  if (el) el.classList.add('on');
+  if (id === 'story') fillStorySelect();
+  if (id === 'debug') { buildDebug(); showDbInfo(); }
+}
+
+function save() {
+  try {
+    localStorage.setItem('dg_l', JSON.stringify(listings));
+    localStorage.setItem('dg_s', JSON.stringify(statuses));
+    localStorage.setItem('dg_c', JSON.stringify(caps));
+    localStorage.setItem('dg_sold', JSON.stringify(sold));
+    localStorage.setItem('dg_ic', ic);
+    localStorage.setItem('dg_igid', IGID);
+  } catch(e) {}
+}
+
+function load() {
+  try {
+    var l = localStorage.getItem('dg_l');
+    var s = localStorage.getItem('dg_s');
+    var c = localStorage.getItem('dg_c');
+    var sd = localStorage.getItem('dg_sold');
+    var i = localStorage.getItem('dg_ic');
+    var ig = localStorage.getItem('dg_igid');
+    var tok = localStorage.getItem('dg_tok');
+    var tokTime = localStorage.getItem('dg_tok_time');
+    if (l) listings = JSON.parse(l);
+    if (s) statuses = JSON.parse(s);
+    if (c) caps = JSON.parse(c);
+    if (sd) sold = JSON.parse(sd);
+    if (i) ic = parseInt(i);
+    if (ig) IGID = ig;
+    if (tok) {
+      TOK = tok;
+      // Check if token is a long-lived token (saved > 1hr ago but still usable)
+      var age = tokTime ? (Date.now() - parseInt(tokTime)) / 1000 / 60 : 999;
+      if (age < 55) {
+        // Token likely still valid (under 55 min old) - auto-connect
+        document.getElementById('setup-box').style.display = 'none';
+        document.getElementById('main-box').style.display = 'block';
+        document.getElementById('token-needed-box').style.display = 'none';
+        document.getElementById('conn-label').textContent = 'Connected to @thedugoutatx';
+        log('Auto-restored token (' + Math.round(age) + ' min old)');
+      } else if (localStorage.getItem('dg_longlived') === '1') {
+        // Long-lived token (60 days) - restore without showing token box
+        document.getElementById('setup-box').style.display = 'none';
+        document.getElementById('main-box').style.display = 'block';
+        document.getElementById('token-needed-box').style.display = 'none';
+        document.getElementById('conn-label').textContent = 'Connected to @thedugoutatx';
+        log('Restored long-lived token');
+      } else {
+        log('Saved token is over 1hr old - will need refresh');
+      }
+    }
+    if (listings.length > 0) {
+      document.getElementById('setup-box').style.display = 'none';
+      document.getElementById('main-box').style.display = 'block';
+      render();
+    }
+  } catch(e) { log('Load error: ' + e.message); }
+}
+
+function clearAll() { localStorage.clear(); location.reload(); }
+
+function showTokStatus() {
+  var el = document.getElementById('tok-status'); if (!el) return;
+  var tokTime = localStorage.getItem('dg_tok_time');
+  var isLong = localStorage.getItem('dg_longlived') === '1';
+  if (isLong) {
+    var saved = tokTime ? new Date(parseInt(tokTime)) : null;
+    var expiry = saved ? new Date(parseInt(tokTime) + 60*24*60*60*1000) : null;
+    el.textContent = '60-day token - expires ' + (expiry ? expiry.toLocaleDateString() : 'soon');
+    el.style.color = '#00C853';
+  } else if (tokTime) {
+    var age = (Date.now() - parseInt(tokTime)) / 1000 / 60;
+    var remaining = Math.max(0, 60 - Math.round(age));
+    if (remaining < 10) {
+      el.textContent = 'Token expires in ~' + remaining + ' min - refresh soon';
+      el.style.color = '#ff4444';
+      document.getElementById('longlived-box').style.display = 'block';
+    } else {
+      el.textContent = 'Token valid ~' + remaining + ' min remaining';
+      el.style.color = remaining < 20 ? '#FFD600' : '#00C853';
+    }
+  }
+}
+
+async function getLongLivedToken() {
+  var appId = document.getElementById('ll-appid').value.trim();
+  var secret = document.getElementById('ll-secret').value.trim();
+  var errEl = document.getElementById('ll-err');
+  if (!appId || !secret) { errEl.textContent = 'Enter both App ID and App Secret.'; errEl.style.display='block'; return; }
+  if (!TOK) { errEl.textContent = 'Connect with your short-lived token first.'; errEl.style.display='block'; return; }
+  errEl.style.display = 'none';
+  var btn = event.target; btn.disabled=true; btn.textContent='Exchanging...';
+  try {
+    var url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=' + appId + '&client_secret=' + secret + '&fb_exchange_token=' + TOK;
+    var r = await fetch(url);
+    var d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    if (!d.access_token) throw new Error('No token returned. Check your App ID and Secret.');
+    TOK = d.access_token;
+    localStorage.setItem('dg_tok', TOK);
+    localStorage.setItem('dg_tok_time', Date.now());
+    localStorage.setItem('dg_longlived', '1');
+    save();
+    document.getElementById('longlived-box').style.display = 'none';
+    showTokStatus();
+    var expires = d.expires_in ? Math.round(d.expires_in / 86400) + ' days' : '60 days';
+    alert('60-day token saved! You will not need to refresh for ' + expires + '.');
+    log('Long-lived token obtained, expires in ' + expires);
+  } catch(e) {
+    errEl.textContent = e.message;
+    errEl.style.display = 'block';
+    log('Long-lived token error: ' + e.message);
+  }
+  btn.disabled=false; btn.textContent='Exchange for 60-Day Token';
+}
+
+function tipTok() {
+  var v = document.getElementById('tok').value.trim();
+  var el = document.getElementById('tok-tip');
+  if (!v) { el.textContent = ''; return; }
+  el.textContent = v.substring(0,10) + '...' + v.slice(-6) + ' (' + v.length + ' chars)';
+  el.style.color = (v.startsWith('EAA') || v.startsWith('IGA')) ? '#00C853' : '#ff4444';
+}
+
+function tipRefresh() {
+  var v = document.getElementById('refresh-tok').value.trim();
+  var el = document.getElementById('refresh-tip');
+  if (!v) { el.textContent = ''; return; }
+  el.textContent = v.substring(0,10) + '...' + v.slice(-6) + ' (' + v.length + ' chars)';
+  el.style.color = (v.startsWith('EAA') || v.startsWith('IGA')) ? '#00C853' : '#ff4444';
+}
+
+function getBase() {
+  return TOK.startsWith('IGA') ? 'https://graph.instagram.com/v18.0' : 'https://graph.facebook.com/v18.0';
+}
+
+async function resolveIG(token) {
+  if (token.startsWith('IGA')) {
+    var r = await fetch('https://graph.instagram.com/v18.0/me?fields=id,username&access_token=' + token);
+    var d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    return d.id;
+  } else {
+    var saved = localStorage.getItem('dg_igid');
+    if (saved) {
+      var r2 = await fetch('https://graph.facebook.com/v18.0/' + saved + '?fields=id&access_token=' + token);
+      var d2 = await r2.json();
+      if (!d2.error) return saved;
+    }
+    var pr = await fetch('https://graph.facebook.com/v18.0/me/accounts?access_token=' + token);
+    var pd = await pr.json();
+    if (pd.error) throw new Error('EAA token error: ' + pd.error.message + '. Try using your IGAA token (starts with IGA) instead.');
+    if (!pd.data || !pd.data.length) throw new Error('No Facebook Pages found. Use your IGAA token (starts with IGA) instead of the EAA token.');
+    var pid = pd.data[0].id;
+    var ir = await fetch('https://graph.facebook.com/v18.0/' + pid + '?fields=instagram_business_account&access_token=' + token);
+    var id2 = await ir.json();
+    if (!id2.instagram_business_account) throw new Error('No Instagram Business Account on your Facebook Page.');
+    return id2.instagram_business_account.id;
+  }
+}
+
+async function doConnect() {
+  var token = document.getElementById('tok').value.trim();
+  if (!token) { document.getElementById('setup-err').textContent = 'Paste your token first.'; document.getElementById('setup-err').style.display = 'block'; return; }
+  var btn = document.getElementById('conn-btn');
+  btn.disabled = true; btn.textContent = 'Connecting...';
+  document.getElementById('setup-err').style.display = 'none';
+  try {
+    TOK = token;
+    IGID = await resolveIG(token);
+    save();
+    document.getElementById('setup-box').style.display = 'none';
+    document.getElementById('main-box').style.display = 'block';
+    document.getElementById('token-needed-box').style.display = 'none';
+    // Save token and timestamp
+    localStorage.setItem('dg_tok', TOK);
+    localStorage.setItem('dg_tok_time', Date.now());
+    updateRBar(); render(); showTokStatus();
+    log('Connected. IGID=' + IGID);
+  } catch(e) {
+    document.getElementById('setup-err').textContent = e.message;
+    document.getElementById('setup-err').style.display = 'block';
+    btn.disabled = false; btn.textContent = 'Connect to @thedugoutatx';
+  }
+}
+
+async function doRefresh() {
+  var token = document.getElementById('refresh-tok').value.trim();
+  if (!token) return;
+  document.getElementById('refresh-err').style.display = 'none';
+  var btn = event.target; btn.disabled = true; btn.textContent = 'Connecting...';
+  try {
+    TOK = token;
+    IGID = await resolveIG(token);
+    save();
+    document.getElementById('token-needed-box').style.display = 'none';
+    document.getElementById('conn-label').textContent = 'Connected to @thedugoutatx';
+    localStorage.setItem('dg_tok', TOK);
+    localStorage.setItem('dg_tok_time', Date.now());
+    updateRBar(); render(); showTokStatus();
+    log('Token refreshed. IGID=' + IGID);
+  } catch(e) {
+    document.getElementById('refresh-err').textContent = e.message;
+    document.getElementById('refresh-err').style.display = 'block';
+    btn.disabled = false; btn.textContent = 'Apply Token';
+  }
+}
+
+function updateRBar() {
+  var today = new Date().toDateString();
+  var sd = localStorage.getItem('dg_day');
+  var n = sd === today ? parseInt(localStorage.getItem('dg_n') || 0) : 0;
+  postsToday = n;
+  var pct = Math.round(n / LIMIT * 100);
+  var col = n >= LIMIT ? '#ff4444' : n >= 40 ? '#FFD600' : '#00C853';
+  var el = document.getElementById('rbar');
+  if (!el) return;
+  el.innerHTML = '<div style="font-size:11px;margin-bottom:4px"><span style="color:' + col + ';font-weight:600">' + n + '/' + LIMIT + ' posts today</span> <span style="color:#444">(' + (LIMIT-n) + ' remaining)</span></div><div style="background:#222;border-radius:3px;height:4px"><div style="background:' + col + ';height:100%;width:' + pct + '%;border-radius:3px"></div></div>';
+}
+
+function importCSV(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var text = e.target.result;
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+    if (lines.length < 2) { alert('CSV empty or invalid.'); return; }
+    var headers = parseCSV(lines[0]).map(function(h) { return h.toLowerCase().replace(/['"]/g,'').trim(); });
+    var gi = function(names) { for (var n of names) { var i = headers.findIndex(function(h) { return h === n || h.includes(n); }); if (i >= 0) return i; } return -1; };
+    var ti = gi(['title']), pi = gi(['current price']), ini = gi(['item number']);
+    var ci = gi(['condition']), gri = gi(['professional grader']), gdi = gi(['grade - ']), cci = gi(['card condition']);
+    var added = 0;
+    for (var i = 1; i < lines.length; i++) {
+      var cols = parseCSV(lines[i]);
+      if (!cols.length || cols.every(function(c) { return !c.trim(); })) continue;
+      var cl = function(idx) { return idx >= 0 ? (cols[idx]||'').replace(/^["'\s]+|["'\s]+$/g,'').trim() : ''; };
+      var title = cl(ti); if (!title) continue;
+      var price = cl(pi), itemNum = cl(ini);
+      var grader = cl(gri), grade = cl(gdi), cond = cl(ci), cc = cl(cci);
+      var condStr = grader && grade ? grader+' '+grade : cond && cond !== 'Ungraded' ? cond : cc;
+      var ebayUrl = itemNum ? 'https://www.ebay.com/itm/' + itemNum : '';
+      listings.push({id:'l'+ic++, title:title, price:price||'0', img:'', cond:condStr, ebayUrl:ebayUrl});
+      added++;
+    }
+    save(); render();
+    if (added) alert('Imported ' + added + ' listings!');
+    else alert('No listings found in CSV.');
+  };
+  reader.readAsText(file);
+}
+
+function parseCSV(line) {
+  var res = [], cur = '', inQ = false;
+  for (var i = 0; i < line.length; i++) {
+    var c = line[i];
+    if (c === '"') inQ = !inQ;
+    else if (c === ',' && !inQ) { res.push(cur); cur = ''; }
+    else cur += c;
+  }
+  res.push(cur); return res;
+}
+
+function addOne() {
+  var t = document.getElementById('at').value.trim();
+  var p = document.getElementById('ap').value.trim();
+  var img = document.getElementById('ai').value.trim();
+  var c = document.getElementById('ac').value.trim();
+  if (!t || !p || !img) { document.getElementById('add-err').textContent = 'Title, price, and image URL required.'; document.getElementById('add-err').style.display = 'block'; return; }
+  document.getElementById('add-err').style.display = 'none';
+  listings.push({id:'l'+ic++, title:t, price:p, img:img, cond:c, ebayUrl:''});
+  ['at','ap','ai','ac'].forEach(function(id) { document.getElementById(id).value = ''; });
+  save(); render();
+}
+
+function setImg(id, url) { var l = listings.find(function(x) { return x.id === id; }); if (l) { l.img = url.trim(); save(); render(); } }
+function markSold(id) { sold[id] = true; save(); render(); }
+function removeL(id) { listings = listings.filter(function(x) { return x.id !== id; }); save(); render(); }
+function editCap(id) {
+  var l = listings.find(function(x) { return x.id === id; });
+  document.getElementById('cap-editor').value = caps[id] || mkCap(l);
+  document.getElementById('edit-cap-box').setAttribute('data-id', id);
+  document.getElementById('edit-cap-box').style.display = 'block';
+  editId = id;
+}
+function closeEdit() {
+  var id = document.getElementById('edit-cap-box').getAttribute('data-id');
+  if (id) caps[id] = document.getElementById('cap-editor').value;
+  document.getElementById('edit-cap-box').style.display = 'none';
+  editId = null; save();
+}
+
+function mkCap(l) {
+  var NL = '\n';
+  var t = l.title||'', p = l.price||'0', c = l.cond||'';
+  var isF = /football|nfl|cowboys|chiefs|prescott|mahomes/i.test(t);
+  var isB = /basketball|nba|lakers|celtics|lebron|curry/i.test(t);
+  var isBb = /baseball|mlb|yankees|dodgers|trout|judge/i.test(t);
+  var isRC = /\bRC\b|rookie/i.test(t);
+  var num = (t.match(/\/\d+/)||[''])[0];
+  var tags = ['#TheDugoutATX','#SportsCards','#CardCollector','#eBay','#Austin','#ATX'];
+  if (isF) tags.push('#FootballCards','#NFL');
+  if (isB) tags.push('#BasketballCards','#NBA');
+  if (isBb) tags.push('#BaseballCards','#MLB');
+  if (isRC) tags.push('#RookieCard','#RC');
+  if (c.includes('PSA')) tags.push('#PSA','#GradedCard');
+  if (num) tags.push('#Numbered','#Limited');
+  var lines = ['The Dugout ATX - ' + t, ''];
+  if (c) lines.push('Condition: ' + c);
+  if (num) lines.push('Numbered ' + num);
+  if (isRC) lines.push('Rookie Card');
+  lines.push('', '$' + p + ' - available now on eBay. Link in bio!', '');
+  lines.push(parseFloat(p)>100?'Premium piece for any serious collector!':'Great addition to any collection!','');
+  lines.push(tags.slice(0,12).join(' '));
+  return lines.join(NL);
+}
+
+async function postListing(id) {
+  var l = listings.find(function(x) { return x.id === id; }); if (!l) return;
+  if (!l.img) { statuses[id] = {type:'err', msg:'No image URL. Paste one from eBay.'}; render(); return; }
+  if (!TOK || !IGID) { alert('Token expired. Paste a fresh token above.'); return; }
+  var today = new Date().toDateString();
+  var sd = localStorage.getItem('dg_day');
+  if (sd !== today) { postsToday = 0; localStorage.setItem('dg_day', today); localStorage.setItem('dg_n', 0); }
+  else postsToday = parseInt(localStorage.getItem('dg_n')||0);
+  if (postsToday >= LIMIT) { statuses[id] = {type:'err', msg:'Daily limit (' + LIMIT + '/day). Resume tomorrow.'}; render(); return; }
+  statuses[id] = {type:'post'}; render();
+  try {
+    var base = getBase();
+    var cap = caps[id] || mkCap(l);
+    var cp = new URLSearchParams();
+    cp.append('image_url', l.img); cp.append('caption', cap); cp.append('access_token', TOK);
+    var cr = await fetch(base + '/' + IGID + '/media', {method:'POST', body:cp});
+    var cd = await cr.json();
+    if (cd.error) throw new Error(cd.error.message);
+    var ready = false;
+    for (var i = 0; i < 12; i++) {
+      await sleep(3000);
+      var sr = await fetch(base + '/' + cd.id + '?fields=status_code&access_token=' + TOK);
+      var sd2 = await sr.json();
+      if (sd2.status_code === 'FINISHED') { ready = true; break; }
+      if (sd2.status_code === 'ERROR') throw new Error('Instagram could not process the image.');
+    }
+    if (!ready) throw new Error('Processing timeout. Try again.');
+    var pp = new URLSearchParams();
+    pp.append('creation_id', cd.id); pp.append('access_token', TOK);
+    var pr = await fetch(base + '/' + IGID + '/media_publish', {method:'POST', body:pp});
+    var pd = await pr.json();
+    if (pd.error) throw new Error(pd.error.message);
+    statuses[id] = {type:'done'}; postsToday++;
+    localStorage.setItem('dg_day', new Date().toDateString());
+    localStorage.setItem('dg_n', postsToday);
+    save(); updateRBar(); log('Posted: ' + l.title.substring(0,40));
+  } catch(e) { statuses[id] = {type:'err', msg:e.message}; log('Error: ' + e.message); }
+  render();
+}
+
+async function postAll() {
+  var btn = document.getElementById('postall-btn');
+  btn.disabled = true;
+  var toPost = listings.filter(function(l) { return statuses[l.id]?.type !== 'done' && !sold[l.id] && l.img; });
+  for (var l of toPost) {
+    var today = new Date().toDateString();
+    var sd = localStorage.getItem('dg_day');
+    var n = sd === today ? parseInt(localStorage.getItem('dg_n')||0) : 0;
+    if (n >= LIMIT) { alert('Daily limit reached!'); break; }
+    await postListing(l.id);
+    for (var s = Math.round(DELAY/1000); s > 0; s--) {
+      btn.textContent = 'Next in ' + s + 's...'; await sleep(1000);
+    }
+  }
+  btn.disabled = false; btn.textContent = 'Post All';
+}
+
+async function syncIG() {
+  if (!TOK || !IGID) { alert('Connect to Instagram first.'); return; }
+  var btn = document.getElementById('sync-btn');
+  btn.disabled = true; btn.textContent = 'Syncing...';
+  try {
+    var base = getBase();
+    var posts = [], url = base + '/' + IGID + '/media?fields=id,caption&limit=100&access_token=' + TOK;
+    var pg = 0;
+    while (url && pg < 10) {
+      var r = await fetch(url); var d = await r.json();
+      if (d.error) throw new Error(d.error.message);
+      if (d.data) posts = posts.concat(d.data);
+      url = d.paging && d.paging.next ? d.paging.next : null; pg++;
+    }
+    var matched = 0;
+    for (var l of listings) {
+      if (statuses[l.id] && statuses[l.id].type === 'done') continue;
+      var words = l.title.toLowerCase().replace(/[^a-z0-9 ]/g,'').split(' ').filter(function(w) { return w.length > 3; });
+      for (var post of posts) {
+        if (!post.caption) continue;
+        var cap = post.caption.toLowerCase().replace(/[^a-z0-9 ]/g,'');
+        var hits = words.filter(function(w) { return cap.includes(w); }).length;
+        if (words.length > 0 && hits/words.length >= 0.75) { statuses[l.id] = {type:'done'}; matched++; break; }
+      }
+    }
+    save(); render();
+    alert('Synced! Matched ' + matched + ' listings to existing posts.');
+    log('Sync done: ' + matched + ' matched from ' + posts.length + ' posts');
+  } catch(e) { alert('Sync failed: ' + e.message); }
+  btn.disabled = false; btn.textContent = 'Sync from Instagram';
+}
+
+function render() {
+  var grid = document.getElementById('grid'); if (!grid) return;
+  var done = listings.filter(function(l) { return statuses[l.id] && statuses[l.id].type === 'done'; }).length;
+  var rem = listings.filter(function(l) { return (!statuses[l.id] || statuses[l.id].type !== 'done') && !sold[l.id]; }).length;
+  var pc = document.getElementById('postcount');
+  if (pc) pc.textContent = listings.length ? done + '/' + listings.length + ' posted' : '';
+  var pb = document.getElementById('postall-btn');
+  if (pb) { pb.style.display = rem > 1 ? 'block' : 'none'; pb.textContent = 'Post All (' + rem + ')'; }
+  var q = (document.getElementById('srch')?.value||'').toLowerCase().trim();
+  var srt = document.getElementById('srt')?.value||'pd';
+  var fl = q ? listings.filter(function(l) { return l.title.toLowerCase().includes(q); }) : listings.slice();
+  if (srt === 'unsold') fl = fl.filter(function(l) { return !sold[l.id]; });
+  fl.sort(function(a,b) {
+    if (srt === 'pd') return parseFloat(b.price||0) - parseFloat(a.price||0);
+    if (srt === 'pa') return parseFloat(a.price||0) - parseFloat(b.price||0);
+    if (srt === 'az') return a.title.localeCompare(b.title);
+    if (srt === 'up') { var ad=statuses[a.id]?.type==='done'?1:0, bd=statuses[b.id]?.type==='done'?1:0; return ad-bd||parseFloat(b.price||0)-parseFloat(a.price||0); }
+    return 0;
+  });
+  var cnt = document.getElementById('cnt');
+  if (cnt) cnt.textContent = q ? fl.length + '/' + listings.length : listings.length + ' listings';
+  grid.innerHTML = '';
+  fl.forEach(function(l) {
+    var st = statuses[l.id]; var isDone = st && st.type === 'done'; var isPost = st && st.type === 'post'; var isErr = st && st.type === 'err'; var isSold = !!sold[l.id];
+    var d = document.createElement('div');
+    d.className = 'lc' + (isDone?' done':'') + (isSold?' sold':'');
+    var imgH = l.img ? '<img src="'+l.img+'" onerror="this.style.display=\'none\'">' : '<div class="noimg">No image</div>';
+    var actH = '';
+    if (isSold) actH = '<div class="lstatus-done" style="color:#FFD600">Sold</div>';
+    else if (isDone) actH = '<div class="lstatus-done">Posted</div>';
+    else if (isPost) actH = '<div class="lstatus-post">Posting...</div>';
+    else {
+      actH = '<div class="lbtns"><button class="gbtn" onclick="postListing(\''+l.id+'\')">Post</button><button onclick="editCap(\''+l.id+'\')">Cap</button><button onclick="markSold(\''+l.id+'\')">Sold</button><button onclick="removeL(\''+l.id+'\')" style="color:#f48a8a">X</button></div>';
+      if (isErr) actH += '<div class="lstatus-err">' + st.msg + '</div>';
+      if (l.ebayUrl && !l.img) actH += '<a href="'+l.ebayUrl+'" target="_blank" style="font-size:10px;color:#00C853;display:block;margin-top:4px">Open eBay</a>';
+      if (!l.img) actH += '<input type="text" placeholder="Paste image URL" onchange="setImg(\''+l.id+'\',this.value)" style="margin-top:5px;font-size:10px;padding:4px 7px;width:100%;border:1px dashed #333;border-radius:5px;background:#1e1e1e;color:#f0f0f0">';
+    }
+    d.innerHTML = imgH + '<div class="lbody"><div class="ltitle">'+l.title+'</div><div style="display:flex;justify-content:space-between;align-items:center"><span class="lprice">$'+l.price+'</span>'+(l.cond?'<span class="lcond">'+l.cond+'</span>':'')+'</div>'+actH+'</div>';
+    grid.appendChild(d);
+  });
+  updateRBar();
+}
+
+// ---- STORY ----
+var THEMES = [
+  // 1 Classic Grid
+  {name:'Classic',acc:'#00C853',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0a1a0a');g.addColorStop(1,'#1a3a1a');c.fillStyle=g;c.fillRect(0,0,W,H);c.strokeStyle='rgba(0,200,83,0.1)';c.lineWidth=1;for(var y=0;y<H;y+=18){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}for(var x=0;x<W;x+=18){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke();}}},
+  // 2 Neon Perspective
+  {name:'Neon',acc:'#39FF14',txt:'#39FF14',draw:function(c,W,H){c.fillStyle='#000';c.fillRect(0,0,W,H);c.strokeStyle='rgba(57,255,20,0.2)';c.lineWidth=1;for(var y=0;y<H;y+=30){c.beginPath();c.moveTo(0,y);c.lineTo(W,y+20);c.stroke();}for(var x=0;x<W;x+=30){c.beginPath();c.moveTo(x,0);c.lineTo(x+15,H);c.stroke();}}},
+  // 3 Fire
+  {name:'Fire',acc:'#FFD700',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,H,0,0);g.addColorStop(0,'#FF1500');g.addColorStop(0.5,'#FF6B00');g.addColorStop(1,'#FFD700');c.fillStyle=g;c.fillRect(0,0,W,H);c.globalAlpha=0.15;for(var i=0;i<12;i++){c.strokeStyle='#FFD700';c.lineWidth=2;c.beginPath();c.moveTo(i*(W/12),H);c.bezierCurveTo(i*(W/12)-20,H*0.6,i*(W/12)+20,H*0.4,i*(W/12),0);c.stroke();}c.globalAlpha=1;}},
+  // 4 Ice Hex
+  {name:'Ice',acc:'#00B4FF',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#020d1a');g.addColorStop(1,'#051530');c.fillStyle=g;c.fillRect(0,0,W,H);c.strokeStyle='rgba(0,180,255,0.12)';c.lineWidth=1;var hx=28;for(var row=0;row<H/hx+1;row++){for(var col=0;col<W/hx+1;col++){var x=col*hx*1.5,y=row*hx*1.73+(col%2?hx*0.87:0);c.beginPath();for(var a=0;a<6;a++){var ang=a*Math.PI/3;c.lineTo(x+hx*0.85*Math.cos(ang),y+hx*0.85*Math.sin(ang));}c.closePath();c.stroke();}}}},
+  // 5 Gold Rush
+  {name:'Gold',acc:'#FFD600',txt:'#FFD600',draw:function(c,W,H){var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0a0800');g.addColorStop(1,'#1a1200');c.fillStyle=g;c.fillRect(0,0,W,H);c.strokeStyle='rgba(255,214,0,0.15)';c.lineWidth=1.5;for(var i=-H;i<W+H;i+=22){c.beginPath();c.moveTo(i,0);c.lineTo(i+H,H);c.stroke();}}},
+  // 6 Prizm Diamonds
+  {name:'Prizm',acc:'#CC00FF',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0d001a');g.addColorStop(1,'#1a0033');c.fillStyle=g;c.fillRect(0,0,W,H);var sz=36;for(var y=0;y<H;y+=sz){for(var x=0;x<W;x+=sz){var hue=(x/W*120+y/H*240)%360;c.fillStyle='hsla('+hue+',100%,60%,0.05)';c.strokeStyle='hsla('+hue+',100%,70%,0.1)';c.lineWidth=0.5;c.beginPath();c.moveTo(x+sz/2,y);c.lineTo(x+sz,y+sz/2);c.lineTo(x+sz/2,y+sz);c.lineTo(x,y+sz/2);c.closePath();c.fill();c.stroke();}}}},
+  // 7 Vintage Halftone
+  {name:'Vintage',acc:'#C8A84B',txt:'#F5E6C8',draw:function(c,W,H){var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#1a1408');g.addColorStop(1,'#2a2010');c.fillStyle=g;c.fillRect(0,0,W,H);c.strokeStyle='rgba(200,168,75,0.08)';c.lineWidth=1;for(var y=0;y<H;y+=12){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}c.strokeStyle='rgba(200,168,75,0.4)';c.lineWidth=3;c.strokeRect(10,10,W-20,H-20);}},
+  // 8 Carbon Fiber
+  {name:'Carbon',acc:'#aaa',txt:'#fff',draw:function(c,W,H){c.fillStyle='#111';c.fillRect(0,0,W,H);var s=10;for(var y=0;y<H;y+=s){for(var x=0;x<W;x+=s*2){var ox=y%(s*2)===0?0:s;var g=c.createLinearGradient(x+ox,y,x+ox+s,y+s);g.addColorStop(0,'#2a2a2a');g.addColorStop(0.5,'#1a1a1a');g.addColorStop(1,'#222');c.fillStyle=g;c.fillRect(x+ox,y,s,s);g=c.createLinearGradient(x+ox+s,y,x+ox+s*2,y+s);g.addColorStop(0,'#222');g.addColorStop(0.5,'#2a2a2a');g.addColorStop(1,'#1a1a1a');c.fillStyle=g;c.fillRect(x+ox+s,y,s,s);}}}},
+  // 9 Retro Wave
+  {name:'RetroWave',acc:'#FF6EC7',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0d0020');g.addColorStop(0.5,'#1a0040');g.addColorStop(1,'#000d2a');c.fillStyle=g;c.fillRect(0,0,W,H);var hz=H*0.55;c.strokeStyle='rgba(255,110,199,0.5)';c.lineWidth=1.5;for(var i=1;i<=10;i++){var y=hz+i*(H-hz)/10;c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}c.strokeStyle='rgba(204,0,255,0.4)';var vl=12;for(var i=0;i<=vl;i++){var x=i*(W/vl);c.beginPath();c.moveTo(W/2,hz);c.lineTo(x,H);c.stroke();}}},
+  // 10 Galaxy Stars
+  {name:'Galaxy',acc:'#A855F7',txt:'#fff',draw:function(c,W,H){var g=c.createRadialGradient(W/2,H/2,0,W/2,H/2,H*0.8);g.addColorStop(0,'#0d0033');g.addColorStop(1,'#000011');c.fillStyle=g;c.fillRect(0,0,W,H);for(var i=0;i<200;i++){var x=Math.random()*W,y=Math.random()*H,r=Math.random()*1.5;c.fillStyle='rgba(255,255,255,'+(0.4+Math.random()*0.6)+')';c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}}},
+  // 11 Chrome Brushed Metal
+  {name:'Chrome',acc:'#C0C0C0',txt:'#000',draw:function(c,W,H){var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#2a2a2a');g.addColorStop(0.3,'#888');g.addColorStop(0.5,'#ccc');g.addColorStop(0.7,'#888');g.addColorStop(1,'#2a2a2a');c.fillStyle=g;c.fillRect(0,0,W,H);c.globalAlpha=0.06;for(var y=0;y<H;y+=5){c.fillStyle='#fff';c.fillRect(0,y,W,2);}c.globalAlpha=1;}},
+  // 12 Circuit Board
+  {name:'Circuit',acc:'#00CC00',txt:'#00FF00',draw:function(c,W,H){c.fillStyle='#001a00';c.fillRect(0,0,W,H);c.strokeStyle='rgba(0,200,0,0.15)';c.lineWidth=1;var gd=28;for(var y=0;y<H;y+=gd){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}for(var x=0;x<W;x+=gd){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke();}c.strokeStyle='rgba(0,204,0,0.6)';c.lineWidth=1.5;for(var n=0;n<20;n++){var cx=Math.floor(Math.random()*(W/gd))*gd,cy=Math.floor(Math.random()*(H/gd))*gd;c.beginPath();c.moveTo(cx,cy);for(var j=0;j<5;j++){var d=Math.floor(Math.random()*4),st=(Math.floor(Math.random()*3)+1)*gd;if(d===0)cx=Math.min(W,cx+st);else if(d===1)cy=Math.min(H,cy+st);else if(d===2)cx=Math.max(0,cx-st);else cy=Math.max(0,cy-st);c.lineTo(cx,cy);}c.stroke();c.fillStyle='rgba(0,255,0,0.8)';c.beginPath();c.arc(cx,cy,3,0,Math.PI*2);c.fill();}}},
+  // 13 Sunrise
+  {name:'Sunrise',acc:'#FF8C00',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0d0020');g.addColorStop(0.4,'#2d0060');g.addColorStop(0.7,'#8B0000');g.addColorStop(0.85,'#FF4500');g.addColorStop(1,'#FFD700');c.fillStyle=g;c.fillRect(0,0,W,H);var sg=c.createRadialGradient(W/2,H*0.85,0,W/2,H*0.85,W*0.6);sg.addColorStop(0,'rgba(255,200,0,0.35)');sg.addColorStop(1,'transparent');c.fillStyle=sg;c.fillRect(0,0,W,H);for(var i=0;i<10;i++){var y=H*(0.7+i*0.028);c.strokeStyle='rgba(255,160,0,0.12)';c.lineWidth=1.5;c.beginPath();c.moveTo(0,y);for(var x=0;x<=W;x+=10)c.lineTo(x,y+Math.sin(x*0.05+i)*4);c.stroke();}}},
+  // 14 Marble
+  {name:'Marble',acc:'#8B7355',txt:'#fff',draw:function(c,W,H){c.fillStyle='#1a1510';c.fillRect(0,0,W,H);c.lineWidth=1.5;for(var i=0;i<20;i++){c.strokeStyle='rgba('+(160+Math.random()*40)+','+(140+Math.random()*30)+','+(110+Math.random()*30)+',0.25)';c.beginPath();c.moveTo(Math.random()*W,0);var cp1x=Math.random()*W,cp1y=Math.random()*H,cp2x=Math.random()*W,cp2y=Math.random()*H;c.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,Math.random()*W,H);c.stroke();}var vg=c.createLinearGradient(0,0,0,H);vg.addColorStop(0,'rgba(0,0,0,0.3)');vg.addColorStop(0.5,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,0.4)');c.fillStyle=vg;c.fillRect(0,0,W,H);}},
+  // 15 Diamond Plate
+  {name:'Diamond',acc:'#6464FF',txt:'#fff',draw:function(c,W,H){c.fillStyle='#1a1a2e';c.fillRect(0,0,W,H);var d=32;for(var y=-d;y<H+d;y+=d){for(var x=-d;x<W+d;x+=d){var sx=x+(y%(d*2)===0?0:d/2);var bright=0.04+((sx+y)/(W+H))*0.08;c.fillStyle='rgba(100,140,255,'+bright+')';c.beginPath();c.moveTo(sx,y-d/2);c.lineTo(sx+d/2,y);c.lineTo(sx,y+d/2);c.lineTo(sx-d/2,y);c.closePath();c.fill();c.strokeStyle='rgba(100,180,255,0.12)';c.lineWidth=0.5;c.stroke();}}}},
+  // 16 Lava
+  {name:'Lava',acc:'#FF4500',txt:'#fff',draw:function(c,W,H){var g=c.createRadialGradient(W/2,H*0.4,0,W/2,H*0.4,H*0.7);g.addColorStop(0,'#ff6600');g.addColorStop(0.4,'#cc2200');g.addColorStop(1,'#1a0000');c.fillStyle=g;c.fillRect(0,0,W,H);c.globalAlpha=0.2;for(var i=0;i<8;i++){var bx=W/2+(Math.random()-0.5)*W*0.8,by=H*0.3+Math.random()*H*0.4;var bg=c.createRadialGradient(bx,by,0,bx,by,60+Math.random()*80);bg.addColorStop(0,'#ffcc00');bg.addColorStop(1,'transparent');c.fillStyle=bg;c.fillRect(0,0,W,H);}c.globalAlpha=1;}},
+  // 17 Ocean
+  {name:'Ocean',acc:'#00CED1',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#001a33');g.addColorStop(0.5,'#003366');g.addColorStop(1,'#004d99');c.fillStyle=g;c.fillRect(0,0,W,H);c.strokeStyle='rgba(0,206,209,0.15)';c.lineWidth=1.5;for(var i=0;i<12;i++){var y=i*(H/12);c.beginPath();c.moveTo(0,y);for(var x=0;x<=W;x+=8)c.lineTo(x,y+Math.sin(x*0.03+i*0.5)*6);c.stroke();}var sh=c.createRadialGradient(W*0.3,H*0.3,0,W*0.3,H*0.3,W*0.5);sh.addColorStop(0,'rgba(0,180,220,0.2)');sh.addColorStop(1,'transparent');c.fillStyle=sh;c.fillRect(0,0,W,H);}},
+  // 18 Midnight
+  {name:'Midnight',acc:'#4169E1',txt:'#fff',draw:function(c,W,H){c.fillStyle='#05050f';c.fillRect(0,0,W,H);for(var i=0;i<150;i++){var x=Math.random()*W,y=Math.random()*H,r=Math.random()*1.2;c.fillStyle='rgba(200,210,255,'+(0.3+Math.random()*0.5)+')';c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}var mg=c.createRadialGradient(W/2,H/2,0,W/2,H/2,H*0.6);mg.addColorStop(0,'rgba(65,105,225,0.15)');mg.addColorStop(1,'transparent');c.fillStyle=mg;c.fillRect(0,0,W,H);}},
+  // 19 Toxic
+  {name:'Toxic',acc:'#7FFF00',txt:'#000',draw:function(c,W,H){var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0a1a00');g.addColorStop(1,'#1a3300');c.fillStyle=g;c.fillRect(0,0,W,H);c.shadowColor='#7FFF00';c.shadowBlur=8;c.strokeStyle='rgba(127,255,0,0.25)';c.lineWidth=1;for(var y=0;y<H;y+=20){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}for(var x=0;x<W;x+=20){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke();}c.shadowBlur=0;}},
+  // 20 Sunset
+  {name:'Sunset',acc:'#FF6B6B',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0a0020');g.addColorStop(0.3,'#3d0070');g.addColorStop(0.6,'#cc2244');g.addColorStop(0.8,'#ff6622');g.addColorStop(1,'#ffaa00');c.fillStyle=g;c.fillRect(0,0,W,H);var cg=c.createRadialGradient(W/2,H*0.7,0,W/2,H*0.7,W*0.7);cg.addColorStop(0,'rgba(255,180,0,0.3)');cg.addColorStop(1,'transparent');c.fillStyle=cg;c.fillRect(0,0,W,H);}},
+  // 21 Rose Gold
+  {name:'RoseGold',acc:'#E8A0BF',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#1a0a10');g.addColorStop(0.5,'#2d1020');g.addColorStop(1,'#1a0a10');c.fillStyle=g;c.fillRect(0,0,W,H);c.strokeStyle='rgba(232,160,191,0.12)';c.lineWidth=1;for(var i=-H;i<W+H;i+=18){c.beginPath();c.moveTo(i,0);c.lineTo(i+H,H);c.stroke();}var rg=c.createRadialGradient(W*0.7,H*0.3,0,W*0.7,H*0.3,W*0.6);rg.addColorStop(0,'rgba(232,160,191,0.2)');rg.addColorStop(1,'transparent');c.fillStyle=rg;c.fillRect(0,0,W,H);}},
+  // 22 Holographic
+  {name:'Holo',acc:'#fff',txt:'#000',draw:function(c,W,H){var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#e0e0ff');g.addColorStop(0.2,'#ffe0f0');g.addColorStop(0.4,'#f0ffe0');g.addColorStop(0.6,'#e0f0ff');g.addColorStop(0.8,'#fff0e0');g.addColorStop(1,'#f0e0ff');c.fillStyle=g;c.fillRect(0,0,W,H);c.globalAlpha=0.3;for(var i=0;i<W+H;i+=6){var hue=i*2%360;c.strokeStyle='hsla('+hue+',100%,70%,0.4)';c.lineWidth=1;c.beginPath();c.moveTo(i,0);c.lineTo(0,i);c.stroke();}c.globalAlpha=1;}},
+  // 23 Blueprint
+  {name:'Blueprint',acc:'#4FC3F7',txt:'#fff',draw:function(c,W,H){c.fillStyle='#0a1628';c.fillRect(0,0,W,H);c.strokeStyle='rgba(79,195,247,0.15)';c.lineWidth=0.5;var gd=20;for(var y=0;y<H;y+=gd){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}for(var x=0;x<W;x+=gd){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke();}c.strokeStyle='rgba(79,195,247,0.4)';c.lineWidth=1;for(var y=0;y<H;y+=gd*5){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}for(var x=0;x<W;x+=gd*5){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke();}}},
+  // 24 Velvet
+  {name:'Velvet',acc:'#9B59B6',txt:'#fff',draw:function(c,W,H){var g=c.createRadialGradient(W/2,H/3,0,W/2,H/2,H);g.addColorStop(0,'#2d0a4e');g.addColorStop(0.5,'#1a0033');g.addColorStop(1,'#0a0020');c.fillStyle=g;c.fillRect(0,0,W,H);c.globalAlpha=0.08;for(var i=0;i<30;i++){var x=Math.random()*W,y=Math.random()*H,r=20+Math.random()*60;var bg=c.createRadialGradient(x,y,0,x,y,r);bg.addColorStop(0,'#9B59B6');bg.addColorStop(1,'transparent');c.fillStyle=bg;c.fillRect(0,0,W,H);}c.globalAlpha=1;}},
+  // 25 Ice Camo
+  {name:'IceCamo',acc:'#B0E0E6',txt:'#000',draw:function(c,W,H){c.fillStyle='#d0e8f0';c.fillRect(0,0,W,H);var shapes=[['#b8d8e8',0.4],['#90c0d8',0.35],['#a8cce0',0.3],['#c8e4f0',0.25]];shapes.forEach(function(s){c.fillStyle=s[0];c.globalAlpha=s[1];for(var i=0;i<6;i++){c.beginPath();var sx=Math.random()*W,sy=Math.random()*H,sw=30+Math.random()*80,sh=20+Math.random()*60;c.ellipse(sx,sy,sw,sh,Math.random()*Math.PI,0,Math.PI*2);c.fill();}});c.globalAlpha=1;var vg=c.createLinearGradient(0,0,0,H);vg.addColorStop(0,'rgba(0,0,0,0.2)');vg.addColorStop(0.5,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,0.3)');c.fillStyle=vg;c.fillRect(0,0,W,H);}},
+  // 26 Ember
+  {name:'Ember',acc:'#FFA500',txt:'#fff',draw:function(c,W,H){c.fillStyle='#0f0500';c.fillRect(0,0,W,H);for(var i=0;i<60;i++){var x=Math.random()*W,y=H-Math.random()*H*0.7,r=1+Math.random()*3;var alpha=0.3+Math.random()*0.6;c.fillStyle='rgba(255,'+(100+Math.floor(Math.random()*155))+',0,'+alpha+')';c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}var fg=c.createLinearGradient(0,H,0,0);fg.addColorStop(0,'rgba(255,60,0,0.2)');fg.addColorStop(0.3,'rgba(255,120,0,0.1)');fg.addColorStop(1,'transparent');c.fillStyle=fg;c.fillRect(0,0,W,H);}},
+  // 27 Confetti
+  {name:'Party',acc:'#FF1493',txt:'#fff',draw:function(c,W,H){c.fillStyle='#1a001a';c.fillRect(0,0,W,H);var cols=['#FF1493','#00FF7F','#FFD700','#00BFFF','#FF6347','#9400D3'];for(var i=0;i<80;i++){var x=Math.random()*W,y=Math.random()*H,w=3+Math.random()*8,h=2+Math.random()*5,ang=Math.random()*Math.PI;c.fillStyle=cols[Math.floor(Math.random()*cols.length)];c.globalAlpha=0.6+Math.random()*0.4;c.save();c.translate(x,y);c.rotate(ang);c.fillRect(-w/2,-h/2,w,h);c.restore();}c.globalAlpha=1;}},
+  // 28 Storm
+  {name:'Storm',acc:'#778899',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0a0a14');g.addColorStop(1,'#1a1a28');c.fillStyle=g;c.fillRect(0,0,W,H);c.strokeStyle='rgba(200,200,255,0.08)';c.lineWidth=1;for(var i=0;i<15;i++){var x=Math.random()*W;c.beginPath();c.moveTo(x+20,0);c.lineTo(x,H);c.stroke();}c.strokeStyle='rgba(255,255,200,0.6)';c.lineWidth=2;for(var i=0;i<3;i++){var lx=W*0.2+Math.random()*W*0.6,ly=Math.random()*H*0.4;c.beginPath();c.moveTo(lx,ly);c.lineTo(lx+20,ly+60);c.lineTo(lx+5,ly+60);c.lineTo(lx+30,ly+130);c.stroke();}}},
+  // 29 Sand
+  {name:'Desert',acc:'#DEB887',txt:'#fff',draw:function(c,W,H){var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#3d1f00');g.addColorStop(0.5,'#5c3300');g.addColorStop(1,'#7a4400');c.fillStyle=g;c.fillRect(0,0,W,H);c.strokeStyle='rgba(222,184,135,0.1)';c.lineWidth=1;for(var i=0;i<20;i++){var y=i*(H/20);c.beginPath();c.moveTo(0,y);for(var x=0;x<=W;x+=15)c.lineTo(x,y+Math.sin(x*0.04+i)*8);c.stroke();}var sg=c.createRadialGradient(W*0.8,H*0.2,0,W*0.8,H*0.2,W*0.5);sg.addColorStop(0,'rgba(255,200,100,0.25)');sg.addColorStop(1,'transparent');c.fillStyle=sg;c.fillRect(0,0,W,H);}},
+  // 30 Blackout Premium
+  {name:'Blackout',acc:'#ffffff',txt:'#ffffff',draw:function(c,W,H){c.fillStyle='#000000';c.fillRect(0,0,W,H);c.strokeStyle='rgba(255,255,255,0.05)';c.lineWidth=1;for(var y=0;y<H;y+=24){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();}c.strokeStyle='rgba(255,255,255,0.12)';c.lineWidth=2;c.strokeRect(8,8,W-16,H-16);c.strokeStyle='rgba(255,255,255,0.05)';c.lineWidth=1;c.strokeRect(13,13,W-26,H-26);}}
+];
+
+function buildThemeGrid() {
+  var grid = document.getElementById('tgrid'); if (!grid) return;
+  var off = document.createElement('canvas'); off.width = 90; off.height = 44;
+  var octx = off.getContext('2d');
+  var html = '';
+  for (var i = 0; i < THEMES.length; i++) {
+    var t = THEMES[i];
+    octx.clearRect(0,0,90,44);
+    try { t.draw(octx,90,44); } catch(e) {}
+    var url = off.toDataURL();
+    html += '<div class="thbtn' + (i===0?' on':'') + '" onclick="selTheme('+i+',this)" style="border-color:'+(i===0?THEMES[0].acc:'#222')+'">';
+    html += '<div class="thprev" style="background-image:url('+url+');background-size:cover"></div>';
+    html += '<span style="color:'+(i===0?t.acc:'#888')+'">'+t.name+'</span></div>';
+  }
+  grid.innerHTML = html;
+}
+
+function selTheme(i, el) {
+  curTheme = i;
+  document.querySelectorAll('.thbtn').forEach(function(b,j) {
+    b.style.borderColor = j===i ? THEMES[i].acc : '#222';
+    b.classList.toggle('on', j===i);
+    b.querySelector('span').style.color = j===i ? THEMES[i].acc : '#888';
+  });
+  document.getElementById('sacc').value = THEMES[i].acc;
+  document.getElementById('stxt').value = THEMES[i].txt;
+  drawS();
+}
+
+function fillStorySelect() {
+  var sel = document.getElementById('story-sel'); if (!sel) return;
+  var sorted = listings.slice().sort(function(a,b) { return parseFloat(b.price||0)-parseFloat(a.price||0); });
+  sel.innerHTML = '<option value="">-- Select listing --</option>' + sorted.map(function(l) { return '<option value="'+l.id+'">$'+l.price+' - '+l.title.substring(0,50)+'</option>'; }).join('');
+}
+
+function storyFromListing() {
+  var id = document.getElementById('story-sel').value;
+  var l = listings.find(function(x) { return x.id === id; }); if (!l) return;
+  document.getElementById('st').value = l.title;
+  document.getElementById('sp').value = l.price;
+  document.getElementById('sg').value = l.cond||'';
+  document.getElementById('si').value = l.img||'';
+  if (l.img) loadSImg(); else { sImg = null; drawS(); }
+}
+
+function loadSImg() {
+  var url = document.getElementById('si').value.trim();
+  if (!url) { sImg = null; drawS(); return; }
+  var img = new Image(); img.crossOrigin = 'anonymous';
+  img.onload = function() { sImg = img; drawS(); };
+  img.onerror = function() { sImg = null; drawS(); };
+  img.src = url;
+}
+
+function rr(ctx,x,y,w,h,r) { ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r); ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath(); }
+function wt(ctx,text,x,y,mw,lh) { var words=text.split(' '),line=''; for(var w of words){var test=line?line+' '+w:w; if(ctx.measureText(test).width>mw&&line){ctx.fillText(line,x,y);line=w;y+=lh;}else line=test;} ctx.fillText(line,x,y); }
+
+function drawS() {
+  var canvas = document.getElementById('sc'); if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = 360, H = 640;
+  var t = THEMES[curTheme];
+  var acc = document.getElementById('sacc')?.value || t.acc;
+  var txtCol = document.getElementById('stxt')?.value || t.txt;
+  var layout = document.getElementById('slayout')?.value || 'c';
+  var title = document.getElementById('st')?.value || 'Your Card Here';
+  var price = document.getElementById('sp')?.value || '0';
+  var grade = document.getElementById('sg')?.value || '';
+  var hl = document.getElementById('shl')?.value || 'NOW AVAILABLE';
+  var cta = document.getElementById('scta')?.value || 'Link in bio  DM to buy';
+  var showP = document.getElementById('showp')?.checked !== false;
+  var showG = document.getElementById('showg')?.checked !== false;
+  var showW = document.getElementById('showw')?.checked !== false;
+
+  try { t.draw(ctx,W,H); } catch(e) { ctx.fillStyle='#111'; ctx.fillRect(0,0,W,H); }
+
+  var vig = ctx.createRadialGradient(W/2,H/2,H*0.3,W/2,H/2,H*0.8);
+  vig.addColorStop(0,'transparent'); vig.addColorStop(1,'rgba(0,0,0,0.45)');
+  ctx.fillStyle = vig; ctx.fillRect(0,0,W,H);
+
+  ctx.strokeStyle = acc + '99'; ctx.lineWidth = 2.5;
+  rr(ctx,5,5,W-10,H-10,12); ctx.stroke();
+
+  ctx.textAlign = 'center';
+
+  if (layout === 'c') {
+    ctx.shadowColor = acc; ctx.shadowBlur = 10;
+    ctx.fillStyle = acc; ctx.font = 'bold 18px DM Sans,sans-serif';
+    ctx.fillText(hl.toUpperCase(), W/2, 65); ctx.shadowBlur = 0;
+    if (sImg) { ctx.save(); rr(ctx,30,85,W-60,205,8); ctx.clip(); ctx.drawImage(sImg,30,85,W-60,205); ctx.restore(); ctx.strokeStyle=acc+'55'; ctx.lineWidth=1.5; rr(ctx,30,85,W-60,205,8); ctx.stroke(); } else { ctx.fillStyle='rgba(0,0,0,0.3)'; rr(ctx,30,85,W-60,120,8); ctx.fill(); ctx.fillStyle=acc+'55'; ctx.font='12px DM Sans,sans-serif'; ctx.fillText('Add image URL',W/2,155); }
+    ctx.fillStyle = txtCol; ctx.font = 'bold 16px DM Sans,sans-serif';
+    wt(ctx,title,W/2,320,W-50,22);
+    if (showG && grade) { ctx.font = '11px DM Sans,sans-serif'; var gw=ctx.measureText(grade).width+18; ctx.fillStyle=acc+'33'; rr(ctx,W/2-gw/2,368,gw,23,4); ctx.fill(); ctx.strokeStyle=acc+'77'; ctx.lineWidth=1; rr(ctx,W/2-gw/2,368,gw,23,4); ctx.stroke(); ctx.fillStyle=txtCol; ctx.fillText(grade,W/2,384); }
+    if (showP) { ctx.shadowColor=acc; ctx.shadowBlur=18; ctx.font='bold 52px Bebas Neue,sans-serif'; ctx.fillStyle=acc; ctx.fillText('$'+price,W/2,455); ctx.shadowBlur=0; }
+    ctx.strokeStyle=acc+'44'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(50,472); ctx.lineTo(W-50,472); ctx.stroke();
+    ctx.font='bold 13px DM Sans,sans-serif'; ctx.fillStyle=txtCol+'bb'; ctx.fillText(cta,W/2,496);
+  } else if (layout === 'b') {
+    if (sImg) { ctx.save(); rr(ctx,15,25,W-30,265,8); ctx.clip(); ctx.drawImage(sImg,15,25,W-30,265); ctx.restore(); }
+    ctx.shadowColor=acc; ctx.shadowBlur=8; ctx.fillStyle=acc; ctx.font='bold 16px DM Sans,sans-serif'; ctx.fillText(hl.toUpperCase(),W/2,335); ctx.shadowBlur=0;
+    ctx.fillStyle=txtCol; ctx.font='bold 15px DM Sans,sans-serif'; wt(ctx,title,W/2,365,W-50,21);
+    if (showG && grade) { ctx.font='11px DM Sans,sans-serif'; ctx.fillStyle=acc+'99'; ctx.fillText(grade,W/2,412); }
+    if (showP) { ctx.shadowColor=acc; ctx.shadowBlur=16; ctx.font='bold 58px Bebas Neue,sans-serif'; ctx.fillStyle=acc; ctx.fillText('$'+price,W/2,490); ctx.shadowBlur=0; }
+    ctx.font='bold 13px DM Sans,sans-serif'; ctx.fillStyle=txtCol+'bb'; ctx.fillText(cta,W/2,545);
+  } else {
+    ctx.shadowColor=acc; ctx.shadowBlur=14; ctx.fillStyle=acc; ctx.font='bold 20px DM Sans,sans-serif'; ctx.fillText(hl.toUpperCase(),W/2,200); ctx.shadowBlur=0;
+    ctx.fillStyle=txtCol; ctx.font='bold 18px DM Sans,sans-serif'; wt(ctx,title,W/2,255,W-60,26);
+    if (showG && grade) { ctx.font='13px DM Sans,sans-serif'; ctx.fillStyle=acc+'99'; ctx.fillText(grade,W/2,320); }
+    if (showP) { ctx.shadowColor=acc; ctx.shadowBlur=18; ctx.font='bold 68px Bebas Neue,sans-serif'; ctx.fillStyle=acc; ctx.fillText('$'+price,W/2,420); ctx.shadowBlur=0; }
+    ctx.font='bold 15px DM Sans,sans-serif'; ctx.fillStyle=txtCol+'bb'; ctx.fillText(cta,W/2,470);
+  }
+
+  if (showW) {
+    ctx.shadowColor=acc; ctx.shadowBlur=5;
+    ctx.fillStyle=acc+'cc'; ctx.font='bold 15px Bebas Neue,sans-serif'; ctx.fillText('THE DUGOUT ATX',W/2,H-55);
+    ctx.shadowBlur=0;
+    ctx.fillStyle=txtCol+'88'; ctx.font='10px DM Sans,sans-serif'; ctx.fillText('@thedugoutatx  |  ebay.com/str/thedugoutatx',W/2,H-38);
+    ctx.fillStyle=acc+'66'; ctx.font='9px DM Sans,sans-serif'; ctx.fillText('DM to buy direct  |  Link in bio',W/2,H-22);
+  }
+
+  updateSCap(title,price,grade);
+}
+
+function updateSCap(t,p,g) {
+  var NL = '\n';
+  var isF = /football|nfl|cowboys|chiefs|prescott|mahomes/i.test(t);
+  var isB = /basketball|nba|lakers|celtics|lebron/i.test(t);
+  var isBb = /baseball|mlb|yankees|dodgers|trout/i.test(t);
+  var isRC = /\bRC\b|rookie/i.test(t);
+  var tags = ['#TheDugoutATX','#SportsCards','#CardCollector','#Austin','#ATX','#eBay'];
+  if (isF) tags.push('#FootballCards','#NFL','#DallasCowboys');
+  if (isB) tags.push('#BasketballCards','#NBA');
+  if (isBb) tags.push('#BaseballCards','#MLB');
+  if (isRC) tags.push('#RookieCard','#RC');
+  if (g && g.includes('PSA')) tags.push('#PSA','#GradedCard');
+  if (g && g.includes('BGS')) tags.push('#BGS','#Beckett');
+  var priceStr = p && p !== '0' ? '$' + p : 'Open to offers';
+  var cap = 'THE DUGOUT ATX' + NL
+    + 'Austin TX Sports Cards' + NL + NL
+    + t + NL
+    + (g ? g + NL : '')
+    + priceStr + NL + NL
+    + 'SHOP NOW:' + NL
+    + 'ebay.com/str/thedugoutatx' + NL + NL
+    + 'DM to buy direct!' + NL + NL
+    + tags.slice(0,14).join(' ');
+  var el = document.getElementById('scap'); if (el) el.textContent = cap;
+}
+
+function dlStory() {
+  var canvas = document.getElementById('sc');
+  var a = document.createElement('a'); a.download = 'dugout_story_' + Date.now() + '.png';
+  a.href = canvas.toDataURL('image/png'); a.click();
+}
+
+function sStep(n, state, msg) {
+  var box = document.getElementById('story-steps'); if (!box) return;
+  box.style.display = 'block';
+  var existing = document.getElementById('sst'+n);
+  var col = state==='ok'?'#00C853':state==='err'?'#ff4444':'#FFD600';
+  var icon = state==='ok'?'v':state==='err'?'X':'...';
+  var html = '<div class="step" id="sst'+n+'"><div class="step-icon" style="color:'+col+'">'+icon+'</div><div style="color:'+col+'">Step '+n+': '+msg+'</div></div>';
+  if (existing) existing.outerHTML = html;
+  else box.innerHTML += html;
+}
+
+async function postStory() {
+  var imgUrl = document.getElementById('si')?.value.trim();
+  if (!imgUrl) { alert('Add an image URL first.'); return; }
+  if (!TOK || !IGID) { alert('Connect to Instagram first in the Post tab.'); return; }
+
+  var btn = document.getElementById('sbtn');
+  var box = document.getElementById('story-steps');
+  btn.disabled = true; btn.textContent = 'Posting...';
+  box.style.display = 'block'; box.innerHTML = '';
+  var base = getBase();
+
+  try {
+    // Step 1: Export canvas
+    sStep(1,'wait','Exporting story card...');
+    var canvas = document.getElementById('sc');
+    var dataUrl;
+    try { dataUrl = canvas.toDataURL('image/jpeg', 0.92); }
+    catch(e) { var si2=sImg; sImg=null; drawS(); dataUrl=canvas.toDataURL('image/jpeg',0.92); sImg=si2; drawS(); }
+    var base64 = dataUrl.split(',')[1];
+    sStep(1,'ok','Card exported (' + Math.round(base64.length*0.75/1024) + 'KB)');
+
+    // Step 2: Upload to Cloudinary (unsigned - no API key needed)
+    sStep(2,'wait','Uploading to Cloudinary...');
+    var fd = new FormData();
+    fd.append('file', dataUrl);
+    fd.append('upload_preset', 'dugoutatx');
+    fd.append('cloud_name', 'dy5kobilb');
+    var uploadResp = await fetch('https://api.cloudinary.com/v1_1/dy5kobilb/image/upload', {
+      method: 'POST',
+      body: fd
+    });
+    var uploadData = await uploadResp.json();
+    if (!uploadData.secure_url) throw new Error('Cloudinary upload failed: ' + JSON.stringify(uploadData));
+    var hostedUrl = uploadData.secure_url;
+    sStep(2,'ok','Uploaded: ' + hostedUrl.substring(0,50) + '...');
+
+    // Step 3: Post to Instagram as Story
+    sStep(3,'wait','Sending to Instagram as Story...');
+    var cp = new URLSearchParams();
+    cp.append('image_url', hostedUrl);
+    cp.append('media_type', 'STORIES');
+    cp.append('access_token', TOK);
+    var cr = await fetch(base+'/'+IGID+'/media',{method:'POST',body:cp});
+    var cd = await cr.json();
+    if (cd.error) throw new Error(cd.error.message);
+    sStep(3,'ok','Container created: '+cd.id);
+
+    // Step 4: Wait for processing
+    sStep(4,'wait','Processing...');
+    var ready=false;
+    for(var i=0;i<15;i++){
+      await sleep(3000);
+      var sr=await fetch(base+'/'+cd.id+'?fields=status_code&access_token='+TOK);
+      var sd2=await sr.json();
+      if(sd2.status_code==='FINISHED'){ready=true;break;}
+      if(sd2.status_code==='ERROR') throw new Error('Instagram could not process image.');
+      sStep(4,'wait','Processing... '+((i+1)*3)+'s');
+    }
+    if(!ready) throw new Error('Timeout.');
+    sStep(4,'ok','Processed');
+
+    // Step 5: Publish
+    sStep(5,'wait','Publishing story...');
+    var pp=new URLSearchParams();
+    pp.append('creation_id',cd.id); pp.append('access_token',TOK);
+    var pr=await fetch(base+'/'+IGID+'/media_publish',{method:'POST',body:pp});
+    var pd=await pr.json();
+    if(pd.error && pd.error.message.toLowerCase().includes('too many')){
+      sStep(5,'wait','Rate limited - waiting 30s...');
+      await sleep(30000);
+      pr=await fetch(base+'/'+IGID+'/media_publish',{method:'POST',body:pp});
+      pd=await pr.json();
+    }
+    if(pd.error) throw new Error(pd.error.message);
+    sStep(5,'ok','Story card posted to @thedugoutatx! Check Instagram now.');
+    log('Story posted via Cloudinary');
+    btn.textContent='Posted!';
+    setTimeout(function(){btn.disabled=false;btn.textContent='Post as Story';},3000);
+
+  } catch(e) {
+    log('Story error: '+e.message);
+    box.innerHTML+='<div style="background:#1e0606;border:1px solid #5c1a1a;border-radius:6px;padding:10px;font-size:12px;color:#f48a8a;margin-top:8px">Error: '+e.message+'</div>';
+    btn.disabled=false; btn.textContent='Post as Story';
+  }
+}
+
+async function postFeed() {
+  var imgUrl = document.getElementById('si')?.value.trim();
+  if (!imgUrl) { alert('Add an image URL first.'); return; }
+  if (!TOK || !IGID) { alert('Connect to Instagram first.'); return; }
+  var cap = document.getElementById('scap')?.textContent || '';
+  var btn = event.target; btn.disabled = true; btn.textContent = 'Posting...';
+  try {
+    var base = getBase();
+    var cp = new URLSearchParams();
+    cp.append('image_url', imgUrl); cp.append('caption', cap); cp.append('access_token', TOK);
+    var cr = await fetch(base + '/' + IGID + '/media', {method:'POST', body:cp});
+    var cd = await cr.json();
+    if (cd.error) throw new Error(cd.error.message);
+    var ready = false;
+    for (var i = 0; i < 12; i++) { await sleep(3000); var sr = await fetch(base+'/'+cd.id+'?fields=status_code&access_token='+TOK); var sd2=await sr.json(); if(sd2.status_code==='FINISHED'){ready=true;break;} if(sd2.status_code==='ERROR')throw new Error('Instagram rejected the image.'); }
+    if (!ready) throw new Error('Processing timeout.');
+    var pp = new URLSearchParams(); pp.append('creation_id',cd.id); pp.append('access_token',TOK);
+    var pr = await fetch(base+'/'+IGID+'/media_publish',{method:'POST',body:pp});
+    var pd = await pr.json();
+    if (pd.error) throw new Error(pd.error.message);
+    postsToday++; localStorage.setItem('dg_n', postsToday);
+    btn.textContent = 'Posted to feed!';
+    log('Story card posted as feed post');
+    setTimeout(function(){btn.disabled=false;btn.textContent='Post as Feed Post instead';},3000);
+  } catch(e) { alert('Failed: ' + e.message); btn.disabled=false; btn.textContent='Post as Feed Post instead'; }
+}
+
+// ---- NEWS ----
+function genNews() {
+  var h = document.getElementById('nhl').value.trim();
+  var type = document.getElementById('ntype').value;
+  if (!h) { alert('Paste a headline first.'); return; }
+  var NL = '\n';
+  var caps = {
+    hot: 'HOT TAKE' + NL+NL + h + NL+NL + 'This is HUGE for the hobby. Card values will move fast.' + NL + 'Are you buying or selling right now? Drop your take below' + NL+NL + '#TheDugoutATX #SportsCards #CardCollector #HobbyNews #Austin',
+    mkt: 'CARD MARKET UPDATE' + NL+NL + h + NL+NL + 'What this means for collectors:' + NL + '- Rookie cards could spike' + NL + '- Graded copies will move faster' + NL+NL + 'Shop our store - link in bio' + NL+NL + '#TheDugoutATX #SportsCards #CardMarket #Austin',
+    hype: 'DID YOU SEE THIS?!' + NL+NL + h + NL+NL + 'The hobby is going CRAZY right now!' + NL + 'Who has cards of this guy? Drop them below' + NL+NL + '#TheDugoutATX #SportsCards #CardCollector #Austin #ATX',
+    sale: 'NEWS + DEAL ALERT' + NL+NL + h + NL+NL + 'To celebrate - DM for a discount on any related cards in our store!' + NL + 'Browse everything at the link in bio' + NL+NL + '#TheDugoutATX #SportsCards #CardSale #Austin',
+    poll: 'POLL TIME' + NL+NL + h + NL+NL + 'How does this affect the hobby?' + NL + 'Bullish on cards' + NL + 'Bearish on cards' + NL+NL + 'Vote below! Link in bio to shop' + NL+NL + '#TheDugoutATX #SportsCards #Austin'
+  };
+  document.getElementById('ncap').textContent = caps[type] || '';
+  document.getElementById('news-out').style.display = 'block';
+}
+
+var IDEAS = [
+  {b:'DAILY', t:'Card of the Day', d:'Feature one listing as Card of the Day and write a short story about the player. Great for engagement.'},
+  {b:'WEEKLY', t:'Friday Sale Post', d:'Every Friday post a weekend deal. Creates urgency and drives DMs from serious buyers.'},
+  {b:'TRENDING', t:'React to Sports News', d:'Player traded or breaks a record? Post how it affects card values. Collectors love market talk.'},
+  {b:'ENGAGE', t:'Poll Posts', d:'"Which would you rather own?" with two listings. Polls boost reach significantly.'},
+  {b:'WEEKLY', t:'Monday New Arrivals', d:'Post your newest listings every Monday. Gives followers a reason to check in.'},
+  {b:'DAILY', t:'Price Drop Alerts', d:'When you drop a price on eBay, post it immediately. Creates urgency.'},
+];
+
+function buildIdeas() {
+  var el = document.getElementById('ideas'); if (!el) return;
+  el.innerHTML = IDEAS.map(function(i) { return '<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #222"><span style="background:#00C853;color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;flex-shrink:0;height:fit-content;margin-top:2px">'+i.b+'</span><div><div style="font-size:13px;font-weight:600;margin-bottom:3px">'+i.t+'</div><div style="font-size:11px;color:#888;line-height:1.5">'+i.d+'</div></div></div>'; }).join('');
+}
+
+// ---- PAYMENTS ----
+function genPP() { var e=document.getElementById('ppe').value.trim(); if(!e){alert('Enter email.');return;} document.getElementById('pplink').textContent='https://www.paypal.com/paypalme/'+e.split('@')[0]; document.getElementById('ppout').style.display='block'; }
+function genCA() { var t=document.getElementById('cat').value.trim().replace('$',''); if(!t){alert('Enter cashtag.');return;} document.getElementById('calink').textContent='https://cash.app/$'+t; document.getElementById('caout').style.display='block'; }
+
+// ---- DEBUG ----
+var TESTS = [
+  {id:'dt1', label:'Token is valid', fn:async function(){ if(!TOK)return{s:'idle',m:'No token'}; try{ var base=TOK.startsWith('IGA')?'https://graph.instagram.com/v18.0':'https://graph.facebook.com/v18.0'; var r=await fetch(base+'/me?fields=id,username&access_token='+TOK); var d=await r.json(); if(d.error)return{s:'fail',m:d.error.message}; return{s:'pass',m:'Valid - User: '+(d.username||d.id)}; }catch(e){return{s:'fail',m:e.message};} }},
+  {id:'dt2', label:'Instagram account connected', fn:async function(){ if(!IGID)return{s:'idle',m:'Not connected'}; return{s:'pass',m:'IG ID: '+IGID}; }},
+  {id:'dt3', label:'Listings loaded', fn:async function(){ if(!listings.length)return{s:'fail',m:'No listings - import CSV first'}; return{s:'pass',m:listings.length+' listings loaded'}; }},
+  {id:'dt4', label:'Daily rate limit', fn:async function(){ var today=new Date().toDateString(); var sd=localStorage.getItem('dg_day'); var n=sd===today?parseInt(localStorage.getItem('dg_n')||0):0; if(n>=50)return{s:'fail',m:'Limit reached ('+n+'/50)'}; if(n>=40)return{s:'fail',m:'Near limit ('+n+'/50)'}; return{s:'pass',m:n+'/50 posts today'}; }},
+  {id:'dt5', label:'Local storage works', fn:async function(){ try{localStorage.setItem('dg_test','1');var v=localStorage.getItem('dg_test');localStorage.removeItem('dg_test');return{s:v==='1'?'pass':'fail',m:v==='1'?'Working':'Failed'};} catch(e){return{s:'fail',m:e.message};} }},
+];
+
+function buildDebug() {
+  var el = document.getElementById('dbtests'); if (!el) return;
+  el.innerHTML = TESTS.map(function(t) { return '<div class="dbrow"><span class="dblabel">'+t.label+'</span><span class="dbstat dbidle" id="'+t.id+'">Not tested</span></div>'; }).join('');
+}
+
+async function runDebug() {
+  log('Running debug tests...');
+  for (var test of TESTS) {
+    var el = document.getElementById(test.id); if (!el) continue;
+    el.className = 'dbstat dbpend'; el.textContent = 'Testing...';
+    var res = await test.fn();
+    el.className = 'dbstat ' + (res.s==='pass'?'dbpass':res.s==='fail'?'dbfail':'dbidle');
+    el.textContent = (res.s==='pass'?'OK: ':res.s==='fail'?'FAIL: ':'') + res.m;
+    log(test.label + ': ' + res.s + ' - ' + res.m);
+  }
+  showDbInfo();
+}
+
+function showDbInfo() {
+  var el = document.getElementById('dbinfo'); if (!el) return;
+  el.innerHTML = [
+    'Token: ' + (TOK ? TOK.substring(0,12)+'...'+TOK.slice(-6)+' ('+TOK.length+' chars, type='+(TOK.startsWith('IGA')?'IGAA':'EAA')+')' : 'Not set'),
+    'IG ID: ' + (IGID || 'Not set'),
+    'Listings: ' + listings.length,
+    'Posted: ' + Object.values(statuses).filter(function(s){return s.type==='done';}).length,
+    'Sold: ' + Object.keys(sold).length,
+    'Posts today: ' + postsToday + '/' + LIMIT,
+  ].map(function(line) { return '<div style="padding:2px 0;border-bottom:1px solid #1e1e1e">'+line+'</div>'; }).join('');
+}
+
+function saveImgbbKey() {
+  var key = document.getElementById('imgbb-key').value.trim();
+  if (key) {
+    localStorage.setItem('dg_imgbb', key);
+    document.getElementById('imgbb-status').textContent = 'Saved';
+    document.getElementById('imgbb-status').style.color = '#00C853';
+  }
+}
+
+function loadImgbbKey() {
+  var key = localStorage.getItem('dg_imgbb');
+  if (key) {
+    var el = document.getElementById('imgbb-key');
+    if (el) el.value = key;
+    var st = document.getElementById('imgbb-status');
+    if (st) { st.textContent = 'Saved'; st.style.color = '#00C853'; }
+  }
+}
+
+async function uploadCanvas() {
+  var key = localStorage.getItem('dg_imgbb');
+  if (!key) return null;
+  var canvas = document.getElementById('sc');
+  var base64 = canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
+  var form = new FormData();
+  form.append('image', base64);
+  form.append('key', key);
+  var r = await fetch('https://api.imgbb.com/1/upload', {method:'POST', body:form});
+  var d = await r.json();
+  if (!d.success) throw new Error('Image upload failed: ' + (d.error && d.error.message ? d.error.message : JSON.stringify(d)));
+  return d.data.url;
+}
+
+async function testImgbb() {
+  var key = document.getElementById('imgbb-key')?.value.trim() || localStorage.getItem('dg_imgbb');
+  var result = document.getElementById('imgbb-test-result');
+  if (!key) { if(result) result.textContent = 'No key found.'; return; }
+  if(result) { result.textContent = 'Testing...'; result.style.color = '#FFD600'; }
+  try {
+    // Upload a tiny 1x1 test image
+    var tiny = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    var form = new FormData();
+    form.append('image', tiny);
+    form.append('key', key);
+    var r = await fetch('https://api.imgbb.com/1/upload', {method:'POST', body:form});
+    var d = await r.json();
+    if (d.success) {
+      if(result) { result.textContent = 'Key works! URL: ' + d.data.url.substring(0,30) + '...'; result.style.color = '#00C853'; }
+      localStorage.setItem('dg_imgbb', key);
+    } else {
+      if(result) { result.textContent = 'Key failed: ' + (d.error?.message || JSON.stringify(d)); result.style.color = '#ff4444'; }
+    }
+  } catch(e) { if(result) { result.textContent = 'Error: ' + e.message; result.style.color = '#ff4444'; } }
+}
+
+function copyEl(id) {
+  var el = document.getElementById(id);
+  navigator.clipboard.writeText(el.textContent||el.value||'').then(function() {
+    var btn = event.target; var orig = btn.textContent;
+    btn.textContent = 'Copied!'; setTimeout(function(){btn.textContent=orig;},1500);
+  });
+}
+
+// ---- INIT ----
+document.getElementById('tok').oninput = tipTok;
+try { load(); } catch(e) { log('Load error: '+e.message); }
+try { showTokStatus(); setInterval(showTokStatus, 60000); } catch(e) {}
+try { loadImgbbKey(); } catch(e) {}
+try { buildThemeGrid(); } catch(e) { log('Theme grid error: '+e.message); }
+try { buildIdeas(); } catch(e) {}
+try { drawS(); } catch(e) {}
+</script>
+</body>
+</html>
